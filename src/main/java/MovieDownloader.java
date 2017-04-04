@@ -18,9 +18,12 @@ import java.util.Scanner;
  */
 public class MovieDownloader {
 
+	/**
+	 * sends get request to the omdbapi and 
+	 */
 	public static String[] downloadMovieData(String movie) {
 
-		//construct the url for the omdbapi API
+		//construct the url for the omdbapi API to connect then parses the movie data and returns it
 		String urlString = "";
 		try {
 			urlString = "http://www.omdbapi.com/?s=" + URLEncoder.encode(movie, "UTF-8") + "&type=movie";

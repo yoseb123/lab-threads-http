@@ -10,28 +10,42 @@ import java.util.Random;
  * @author Joel Ross
  */
 public class SortRacer {
+	static class MergeSortRunnable implements Runnable {
+		public void run() {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSSS"); //for output
+			Integer[] nums;
+
+			/** Merge Sort **/
+			nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
+
+			System.out.println("Starting merge sort at "+dateFormat.format(new Date()));
+			Sorting.mergeSort(nums);
+			System.out.println("Merge sort finished at "+dateFormat.format(new Date())+" !");
+		}
+	}
+
+	static class QuickSortRunnable implements Runnable {
+		public void run() {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSSS"); //for output
+			Integer[] nums;
+
+			/** Quick Sort **/
+			nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
+			System.out.println("Starting quicksort at "+dateFormat.format(new Date()));
+			Sorting.quickSort(nums);
+			System.out.println("Quicksort finished at "+dateFormat.format(new Date())+" !");
+		}
+	}
 
 	public static void main(String[] args) 
 	{
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSSS"); //for output
-		Integer[] nums;
-
-		
-		/** Merge Sort **/
-		nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
-
-		System.out.println("Starting merge sort at "+dateFormat.format(new Date()));
-		Sorting.mergeSort(nums);
-		System.out.println("Merge sort finished at "+dateFormat.format(new Date())+" !");
-
-		
-		/** Quick Sort **/
-		nums = shuffled((int)Math.pow(10,7), 448); //a list of shuffled 10 million numbers
-		System.out.println("Starting quicksort at "+dateFormat.format(new Date()));
-		Sorting.quickSort(nums);
-		System.out.println("Quicksort finished at "+dateFormat.format(new Date())+" !");
+		Thread[] arr = new Thread[2];
+		arr[0] = new Thread(new MergeSortRunnable());
+		arr[1] = new Thread(new QuickSortRunnable());
+		for (int i = 0; i < arr.length; i++) {
+			arr[i].start();
+		}
 	}
-	
 	
 	/**
 	 * A utility method that returns a shuffled (randomly sorted) array of integers from 1 to the given number.
